@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BISANUNSA Simulation</title>
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <link rel="stylesheet" href="J-Calculator-Bundle.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <div id="main" class="w-100 h-100">
+        
+        <!-- CODE -->
+        <div id="code_cont" class="border-right">
+            
+                <div id="code_tabs_buttons" class="tab_changer-button flex" data-tabs="code_tabs">
+                    <button id="assembly_code_button" class="selected w-100">ASSEMBLY</button>
+                    <button id="machine_code_button" class="w-100 control_buttons">MACHINE CODE</button>
+                </div>
+                <div id="code_tabs">
+                    <!-- TABS -->
+                    <div class="h-100">
+                        
+                        <textarea id="code_input" class="p-2 h-100 w-100 no-border monospace"> </textarea>
+
+                    </div>
+
+                    <div id="machine_code_cont">
+
+                        TEST
+
+                    </div>
+                </div>
+        
+        </div>
+        
+        <!-- VISUALIZER (RAM) -->
+        <div id="visualizer_cont" class="border-right p-2">
+
+        </div>
+
+        <!-- CONTROL -->
+        <div id="control_cont" class="p-2">
+
+            <!-- RAM and ROM SIZE, -->
+            <div class="space-between">
+                <label class="no-wordwrap pr-2">RAM & ROM Size: </label>
+                <input id="spec_MEM_Size" type="number" class="no-minwidth" value="256">
+            </div>
+            <div class="space-between">
+                <label class="no-wordwrap pr-2">RAM BIT SIZE: </label>
+                <input id="spec_MEM_RamBit" type="number" class="no-minwidth" value="8">
+            </div>
+            <div class="space-between">
+                <label class="no-wordwrap pr-2">ROM BIT Size: </label>
+                <input id="spec_MEM_RomBit" type="number" class="no-minwidth" value="16">
+            </div>
+            <button onclick="gen_Memory()" class="w-100">GENERATE</button>
+
+            <!-- Cycle Control -->
+            <fieldset id="cycle_control" class="mt-2 flex-column fieldset-no-borders">
+                <legend class="text-center w-auto m-auto px-2 mb-1">Cycle Control</legend>
+                <button onclick="Computer.run_state = true" class="w-100 control_buttons">START</button>
+                <div class="flex">
+                    <button class="w-100 control_buttons" disabled onclick="Computer.next_cycle()">NEXT</button>
+                    <button onclick="Computer.run_state = false" class="w-100 control_buttons" disabled>STOP</button>
+                </div>
+                <button onclick="auto_run(10)" class="control_buttons">
+                    AUTO RUN
+                </button>
+            </fieldset>
+
+            <!-- Register Display -->
+            <fieldset id="register_cont" class="mt-1 flex-column fieldset-no-borders">
+                <legend class="text-center w-auto m-auto px-2 mb-2">Registers</legend>
+            </fieldset>
+
+
+        </div>
+
+    </div>
+
+</body>
+<script src="J-Calculator-Bundle.js"></script>
+<script src="memory.js"></script>
+<script src="registers.js"></script>
+<script src="instruction.js"></script>
+<script src="computer.js"></script>
+<script src="utils.js"></script>
+<script src="dom.js"></script>
+<script src="main.js"></script>
+</html>

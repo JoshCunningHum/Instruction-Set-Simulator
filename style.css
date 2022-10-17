@@ -1,0 +1,146 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Poppins;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: not-allowed;
+}
+
+.no-wordwrap {
+    white-space: nowrap;
+}
+
+.no-minwidth {
+    min-width: 0;
+}
+
+#main {
+    background: #333;
+    display: flex;
+    flex-direction: row;
+    max-height: 100vh;
+    max-width: 100vw;
+}
+
+#main > div{
+    flex-grow: 1;
+    min-width: 300px;
+}
+
+#main > #visualizer_cont {
+    flex-grow: 10;
+    overflow-y: auto;
+}
+
+#code_cont {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+#code_tabs {
+    flex-grow: 1;
+}
+
+.MEM_SLOT {
+    display: flex;
+    justify-content: space-between;
+    padding: 7px;
+}
+
+.MEM_SLOT > div {
+    font-family: monospace;
+    font-size: 1rem;
+}
+
+.MEM_SLOT.highlighted {
+    border: thin solid green;
+    background: rgba(0, 255, 0, 0.05);
+}
+
+#machine_code_cont {
+    padding: .5rem;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.instruction {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
+
+.instruction * {
+    font-family: monospace;
+    font-size: 1.25rem;
+    letter-spacing: 1px;
+}
+
+.instruction p {
+    display: inline;
+}
+
+.instruction .opcode {
+    background: rgba(192, 192, 7, 0.5);
+}
+.instruction .op_1 {
+    background: rgba(89, 194, 40, 0.5);
+}
+.instruction .op_2 {
+    background: rgba(26, 109, 204, 0.5);
+}
+.instruction .op_3 {
+    background: rgba(192, 133, 7, 0.5);
+}
+
+.instruction.highlight {
+    border: thin solid green;
+    background: rgba(0, 255, 0, 0.05);
+}
+
+/* TODO: Style this shit*/
+#code_input {
+    font-size: 1.5rem;
+    resize: none;
+}
+#control_cont {
+    max-width: 350px;
+}
+
+#control_cont label + input[type=number] {
+    max-width: 150px;
+}
+
+.fieldset-no-borders {
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+}
+
+.reg {
+    display: flex;
+}
+
+.reg > * {
+    padding: .5rem;
+}
+
+.reg > label {
+    flex-grow: 1;
+    width: 70px;
+    max-width: 70px;
+    border: thin solid white;
+    text-align: center;
+}
+
+.reg > div {
+    flex-grow: 5;
+    border: thin solid white;
+    border-left: none;
+}
