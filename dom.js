@@ -1,27 +1,29 @@
 // DOM Manipulation
-function gen_Memory(){
+function gen_Memory(memSize, ramSize, romSize){
     const memorySize = parseInt(document.querySelector("#spec_MEM_Size").value),
           ramBitSize = parseInt(document.querySelector("#spec_MEM_RamBit").value),
           romBitSize = parseInt(document.querySelector("#spec_MEM_RomBit").value);
 
-    const memBitSize = Math.log2(memorySize);
+    memSize ??= memorySize;
+    ramSize ??= ramBitSize;
+    romSize ??= romBitSize;
 
-    console.log(memorySize);
+    const memBitSize = Math.log2(memSize);
 
     const v = document.querySelector("#visualizer_cont");
 
     v.innerHTML = "";
 
-    for(let i = 0; i < memorySize; i++){
+    for(let i = 0; i < memSize; i++){
         const slot = document.createElement("div");
         slot.classList.add("MEM_SLOT")
-        slot.dataset.address = Utils.padd(Utils.dec2Bin(i), Math.log2(memorySize));
-        slot.innerHTML = `<div>${Utils.padd(`${i}`, memorySize.toString().length)} - ${Utils.padd(Utils.dec2Bin(i), memBitSize)}</div><div>${"0".repeat(ramBitSize)}</div>`
+        slot.dataset.address = Utils.padd(Utils.dec2Bin(i), Math.log2(memSize));
+        slot.innerHTML = `<div>${Utils.padd(`${i}`, memSize.toString().length)} - ${Utils.padd(Utils.dec2Bin(i), memBitSize)}</div><div>${"0".repeat(ramSize)}</div>`
         v.append(slot);
     }
 
     // initialize MEM
-    MEM.init(memorySize, ramBitSize, romBitSize);
+    MEM.init(memSize, ramSize, romSize);
 }
 
 var clock_interval;

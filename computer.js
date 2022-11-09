@@ -49,6 +49,17 @@ const Computer = {
             return arg.join(" ");
         })
 
+        // check all arguments if marker
+        assembly_code = assembly_code.map((e, i) => {
+            let arg = e.split(" ");
+            arg = arg.map(ar => {
+                let index = this.markers.findIndex(marker => marker.split("-")[0] == ar);
+                if(index == -1) return ar;
+                return this.markers[index].split("-")[1];
+            })
+            return arg.join(" ");
+        })
+
         // clean marker purge
         assembly_code = assembly_code.filter(e => {
             if(e == " " || e == "") return false;
@@ -94,7 +105,7 @@ const Computer = {
 
             console.log(args);
 
-            res += `<div class="instruction" data-address="${Utils.padd(Utils.dec2Bin(i), MEM.ramBit)}"><span>${args.join(" ")}</span> <span>${Instruction[args[0]].getMC(...args.slice(1))}</span></div>`;
+            res += `<div class="instruction" data-address="${Utils.padd(Utils.dec2Bin(i), MEM.memSizeBits)}"><span><span class="lineNum">${i}:</span> ${args.join(" ")}</span> <span>${Instruction[args[0]].getMC(...args.slice(1))}</span></div>`;
 
             // TODO: Operand Conversion (registers, addresses, and data alike)
 
@@ -114,7 +125,10 @@ const Computer = {
 
 
         Register.AR.val = Register.PC.val;
-
+        if(Register.get("AR").valD >= this.code.length){
+            stop_auto_run();
+            return;
+        }
 
         // second fetch cycle
         const codeIndex = Register.get("AR").valD,
@@ -126,7 +140,7 @@ const Computer = {
         Instruction[exp[0]].run(...(exp.slice(1)));
 
         // TODO: highlight instruction at address AR
-        let current_instruction = document.querySelector(`.instruction[data-address="${Register.AR.val}"`);
+        let current_instruction = document.querySelector(`.instruction[data-address="${Register.AR.val}"`); 
         current_instruction.classList.add("highlight");
         
         this.first_cycle = false;

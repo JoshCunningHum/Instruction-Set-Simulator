@@ -32,77 +32,78 @@ const config = {
     })
 
     // General registers
-    const A = new Register({
-        name: "A",
+    const AC = new Register({
+        name: "AC",
         address: "00",
         size: 8
     })
     
-    const R1 = new Register({
-        name: "R1",
+    const R = new Register({
+        name: "R",
         address: "01",
-        size: 8
-    })
-    
-    const R2 = new Register({
-        name: "R2",
-        address: "10",
         size: 8
     })
 
 
     // create instruction sets here
-    new Instruction("RSET", function(){
-        Register.get(this.op[0]).valD = 0;
+    new Instruction("NOP", function(){
+        // do nothing
     })
 
-    new Instruction("SNDR", function(){
-        MEM.setD(Register.get(this.op[1]).val, parseInt(this.op[0]));
+    new Instruction("LDAC", function(){
+        // set AC register value to value at memory address
+        AC.val = MEM.getD(parseInt(this.op[0]));
     }, `A-1[MA]`)
 
-    new Instruction("RECR", function(){
-        Register.get(this.op[0]).val = MEM.getD(parseInt(this.op[1]));
+    new Instruction("STAC", function(){
+        // set value at memory address to ac value
+        MEM.setD(AC.val, parseInt(this.op[0]));
     }, `A-1[MA]`)
+
+    new Instruction("MVAC", function(){
+        // move value of AC to R
+        R.val = AC.val;
+    })
 
     new Instruction("MOVR", function(){
-        Register.get(this.op[0]).val = Register.get(this.op[1]).val;
+        // move value of R to AC
+        AC.val = R.val;
     })
 
-    new Instruction("MOVI", function(){
-        Register.get(this.op[0]).valD = parseInt(this.op[1]);
-    })
-
-    new Instruction("GOTO", function(){
+    new Instruction("JUMP", function(){
+        // set pc value to the memory address provided
         PC.valD = parseInt(this.op[0]);
     }, `A-1[MA]`)
 
-    new Instruction("TRVZ", function(){
-        if(Z.val == 1) PC.valD = parseInt(this.op[0]);
+    new Instruction("JMPZ", function(){
+        // if Z = 1 THEN GOTO memory address
+        if(Z.valD == 1) PC.valD = parseInt(this.op[0]);
     }, `A-1[MA]`)
 
-    new Instruction("TVNZ", function(){
-        if(Z.val == 0)  PC.valD = parseInt(this.op[0]);
+    new Instruction("JPNZ", function(){
+        // if Z = 0 THEN GOTO memory address
+        if(Z.valD == 0) PC.valD = parseInt(this.op[0]);
     }, `A-1[MA]`)
 
-    new Instruction("TRVC", function(){
+    new Instruction("ADD", function(){
         // AC = AC + R, then if AC == 0, Z = 1 else Z = 0
         AC.valD += R.valD;
         Z.val = (AC.valD == 0) ? 1 : 0;
     })
 
-    new Instruction("TVNC", function(){
+    new Instruction("SUB", function(){
         // AC = AC - R, then if AC == 0, Z = 1 else Z = 0
         AC.valD -= R.valD;
         Z.val = (AC.valD == 0) ? 1 : 0;
     })
 
-    new Instruction("TRVE", function(){
+    new Instruction("INAC", function(){
         // AC = AC + 1, then if AC == 0, Z = 1 else Z = 0
         AC.valD++;
         Z.val = (AC.valD == 0) ? 1 : 0;
     })
 
-    new Instruction("NOP", function(){
+    new Instruction("CLAC", function(){
         // AC = 0, Z = 1
         AC.valD = 0;
         Z.val = 1;

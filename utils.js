@@ -7,8 +7,19 @@ const Utils = {
     },
     padd: (n, size) => {
         let diff = size - n.length;
-        if(diff <= 0) return n;
+        if(diff < 0) return n.slice(-diff); // delete extra bits on the start
+        else if(diff == 0) return n;
         return "0".repeat(diff) + n;
+    },
+    dec2BinP: (n, size) => {
+        return Utils.padd(Utils.dec2Bin(n), size);
+    },
+    compD: (n) => { // n is decimal (returns number)
+        const log = 10 ** (n.toString().length);
+        return log - n;
+    },
+    comp: (n) => { // n is binary (returns string)
+        return Utils.dec2BinP(Utils.bin2Dec(Utils.NOT(n)) + 1, n.length);
     },
     isNum: (string) => {
         return !isNaN(parseInt(string));
